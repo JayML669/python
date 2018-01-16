@@ -3,10 +3,17 @@ import time
 import math
 import webbrowser
 import random
+import os
 
 now = datetime.datetime.today()
 targetTime = ''
 url = 'google.com'
+
+if (os.path.isfile('videos.txt') == False):
+    print("Error: no file found creating now...")
+    createdFile = open('videos.txt', 'w')
+    createdFile.write('https://youtu.be/nNpW8KZOVhw')
+    createdFile.close()
 
 def waitTime(hour,minute,second, alarmHour, alarmMinute):
     totMins = ((int(alarmHour)*60) + int(alarmMinute))- ((int(hour)*60) + int(minute))
