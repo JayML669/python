@@ -8,6 +8,8 @@ import os
 now = datetime.datetime.today()
 targetTime = ''
 url = 'google.com'
+hourToSec = 3600
+minToSec = 60
 
 if (os.path.isfile('videos.txt') == False):
     print("Error: no file found creating now...")
@@ -18,11 +20,13 @@ if (os.path.isfile('videos.txt') == False):
 def waitTime(hour,minute,second, alarmHour, alarmMinute):
     totMins = ((int(alarmHour)*60) + int(alarmMinute))- ((int(hour)*60) + int(minute))
     if(totMins>0):
-        wait= ''+str(math.floor(totMins/60))+':'+ str(totMins%60)+':'+ second
+        totSecs = (totMins%60)*60-int(second)
+        wait= ''+str(math.floor(totMins/60))+':'+ str(math.floor(totSecs/60))+':'+ str(totSecs%60)
     elif(totMins<0):
-        tempSecs = seconds
-        seconds = ((1440-totMins)*60-seconds)%60
-        totMins = floor(((1440-totMins)*60-tempSecs)/60)
+        untilMid = (24*3600)-(int(hour)*hourToSec+int(minute)*minToSec+int(second))
+        midToTarget = int(alarmHour)*hourToSec + int(alarmMinute)*minToSec
+        untilTarget = untilMid+midToTarget
+        wait= ''+str(math.floor(untilTarget/hourToSec))+':'+ str(math.floor(untilTarget/60)%60)+':'+ str((untilTarget%3600)%60)
     return wait
 
 targetTime = input('What time would you like to wake up? (ex: 06:30 or 13:57)\n') +':00'
